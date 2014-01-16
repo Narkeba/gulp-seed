@@ -8,35 +8,47 @@ var connect = require('connect');
 
 gulp.task('coffee', function() {
 	return gulp.src('assets/coffee/**/*.coffee')
-		.pipe(tasks.coffee())
+		.pipe(tasks.coffee({bare: true})
+			.on('error', tasks.util.log))
 		.pipe(tasks.jshint())
 		.pipe(tasks.jshint.reporter(stylish))
-		.pipe(tasks.uglify())
-		.pipe(tasks.concat('all.js'))
+		.pipe(tasks.uglify()
+			.on('error', tasks.util.log))
+		.pipe(tasks.concat('all.js')
+			.on('error', tasks.util.log))
 		.pipe(gulp.dest('build/js'))
-		.pipe(tasks.livereload(server));
+		.pipe(tasks.livereload(server)
+			.on('error', tasks.util.log));
 });
 
 gulp.task('less', function() {
 	return gulp.src('assets/less/**/*.less')
-		.pipe(tasks.less())
-		.pipe(tasks.autoprefixer("last 1 version", "> 1%", "ie 8", "ie 7"))
-		.pipe(tasks.csso())
-		.pipe(tasks.concat('all.css'))
+		.pipe(tasks.less()
+			.on('error', tasks.util.log))
+		.pipe(tasks.autoprefixer("last 1 version", "> 1%", "ie 8", "ie 7")
+			.on('error', tasks.util.log))
+		.pipe(tasks.csso()
+			.on('error', tasks.util.log))
+		.pipe(tasks.concat('all.css')
+			.on('error', tasks.util.log))
 		.pipe(gulp.dest('build/css'))
-		.pipe(tasks.livereload(server));
+		.pipe(tasks.livereload(server)
+			.on('error', tasks.util.log));
 });
 
 gulp.task('jade', function() {
 	gulp.src('assets/jade/*.jade')
-		.pipe(tasks.jade())
+		.pipe(tasks.jade()
+			.on('error', tasks.util.log))
 		.pipe(gulp.dest('build'))
-		.pipe(tasks.livereload(server));
+		.pipe(tasks.livereload(server)
+			.on('error', tasks.util.log));
 });
 
 gulp.task('image', function() {
 	gulp.src('assets/images/*')
-		.pipe(tasks.imagemin({optimizationLevel: 5}))
+		.pipe(tasks.imagemin({optimizationLevel: 5})
+			.on('error', tasks.util.log))
 		.pipe(gulp.dest('build/images'))
 });
 
