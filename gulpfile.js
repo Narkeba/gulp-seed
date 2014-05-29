@@ -12,8 +12,8 @@ gulp.task('coffee', function() {
 			.on('error', tasks.util.log))
 		.pipe(tasks.jshint())
 		.pipe(tasks.jshint.reporter(stylish))
-		.pipe(tasks.uglify()
-			.on('error', tasks.util.log))
+		// .pipe(tasks.uglify()
+		// 	.on('error', tasks.util.log))
 		.pipe(tasks.concat('all.js')
 			.on('error', tasks.util.log))
 		.pipe(gulp.dest('build/js'))
@@ -27,8 +27,8 @@ gulp.task('less', function() {
 			.on('error', tasks.util.log))
 		.pipe(tasks.autoprefixer("last 1 version", "> 1%", "ie 8", "ie 7")
 			.on('error', tasks.util.log))
-		.pipe(tasks.csso()
-			.on('error', tasks.util.log))
+		// .pipe(tasks.csso()
+		// 	.on('error', tasks.util.log))
 		.pipe(tasks.concat('all.css')
 			.on('error', tasks.util.log))
 		.pipe(gulp.dest('build/css'))
@@ -60,7 +60,7 @@ gulp.task('build', function() {
 })
 
 gulp.task('default', function() {
-	gulp.run('build');
+	gulp.run('watch');
 });
 
 gulp.task('http', function() {
