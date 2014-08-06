@@ -10,6 +10,17 @@ paths =
 	assets: 'assets/'
 	build: 'build/'
 
+parseBower = (files) ->
+	parsed =
+		js: []
+		css: []
+
+	for file in files
+		ext = file.split(".").pop()
+		parsed[ext] = file
+
+	return parsed
+
 scriptCompress = lazypipe()
 	.pipe plugins.uglify
 	.pipe plugins.newer, paths.build + 'scripts/all.js'
@@ -49,18 +60,22 @@ gulp.task 'image', ->
 		.pipe plugins.imagemin optimizationLevel: 5
 		.pipe gulp.dest paths.build + 'images'
 
-gulp.task 'bower-js', ->
-	gulp.src mainBowerFiles includeDev: true
+gulp.task 'bower', ->
+	bowerFiles = mainBowerFiles
+		includeDev: true
+
+	files = parseBower bowerFiles
+
+	gulp.src files.js
 		.pipe plugins.newer paths.build + 'scripts/vendor.js'
 		.pipe plugins.concat 'vendor.js'
 		.pipe gulp.dest paths.build + 'scripts'
 
-gulp.task 'bower-css', ->
-	gulp.src paths.assets + 'bower/*/*.min.css'
+	gulp.src files.css
 		.pipe plugins.cssmin keepSpecialComments: 0
 		.pipe plugins.newer paths.build + 'scripts/vendor.css'
 		.pipe plugins.concat 'vendor.css'
-		.pipe gulp.dest paths.build + 'scripts'
+		.pipe gulp.dest paths.build + 'styles'
 
 gulp.task 'connect', ->
 	plugins.connect.server
@@ -76,7 +91,7 @@ gulp.task 'watch', ->
 	gulp.watch paths.assets + 'jade/**/*.jade', ['jade']
 	gulp.watch paths.assets + 'images/**/*', ['image']
 
-gulp.task 'assets', ['image', 'less', 'coffee', 'jade', 'bower-js', 'bower-css']
+gulp.task 'assets', ['image', 'less', 'coffee', 'jade', 'bower']
 
 gulp.task 'default', ['assets', 'watch', 'connect']
 

@@ -2,7 +2,8 @@
 	"name": "dev",
 	"private": true,
 	"devDependencies": {
-		"jquery": "~1.10.2"
+		"jquery": "*",
+		"normalize.css": "*"
 	},
 	"overrides": {
 		"BOWER-PACKAGE": {
