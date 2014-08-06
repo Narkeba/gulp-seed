@@ -50,11 +50,7 @@ gulp.task 'image', ->
 		.pipe gulp.dest paths.build + 'images'
 
 gulp.task 'bower', ->
-	options = 
-		debugging: true
-		includeDev: true
-	
-	gulp.src mainBowerFiles options
+	gulp.src mainBowerFiles includeDev: true
 		.pipe plugins.newer paths.build + 'scripts/vendor.js'
 		.pipe plugins.concat 'vendor.js'
 		.pipe gulp.dest paths.build + 'scripts'
@@ -70,8 +66,8 @@ gulp.task 'clean', ->
 gulp.task 'watch', ->
 	gulp.watch paths.assets + 'coffee/**/*.coffee', ['coffee']
 	gulp.watch paths.assets + 'less/**/*.less', ['less']
-	gulp.watch paths.assets + 'jade/*.jade', ['jade']
-	gulp.watch paths.assets + 'images/*', ['image']
+	gulp.watch paths.assets + 'jade/**/*.jade', ['jade']
+	gulp.watch paths.assets + 'images/**/*', ['image']
 
 gulp.task 'assets', ['image', 'less', 'coffee', 'jade', 'bower']
 
