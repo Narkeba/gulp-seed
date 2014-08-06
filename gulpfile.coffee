@@ -21,6 +21,9 @@ parseBower = (files) ->
 
 	return parsed
 
+bowerFiles = parseBower mainBowerFiles
+	includeDev: true
+
 scriptCompress = lazypipe()
 	.pipe plugins.uglify
 	.pipe plugins.newer, paths.build + 'scripts/all.js'
@@ -60,18 +63,14 @@ gulp.task 'image', ->
 		.pipe plugins.imagemin optimizationLevel: 5
 		.pipe gulp.dest paths.build + 'images'
 
-gulp.task 'bower', ->
-	bowerFiles = mainBowerFiles
-		includeDev: true
-
-	files = parseBower bowerFiles
-
-	gulp.src files.js
+gulp.task 'bower-js', ->
+	gulp.src bowerFiles.js
 		.pipe plugins.newer paths.build + 'scripts/vendor.js'
 		.pipe plugins.concat 'vendor.js'
 		.pipe gulp.dest paths.build + 'scripts'
 
-	gulp.src files.css
+gulp.task 'bower-css', ->
+	gulp.src bowerFiles.css
 		.pipe plugins.cssmin keepSpecialComments: 0
 		.pipe plugins.newer paths.build + 'scripts/vendor.css'
 		.pipe plugins.concat 'vendor.css'
@@ -91,7 +90,7 @@ gulp.task 'watch', ->
 	gulp.watch paths.assets + 'jade/**/*.jade', ['jade']
 	gulp.watch paths.assets + 'images/**/*', ['image']
 
-gulp.task 'assets', ['image', 'less', 'coffee', 'jade', 'bower']
+gulp.task 'assets', ['image', 'less', 'coffee', 'jade', 'bower-js', 'bower-css']
 
 gulp.task 'default', ['assets', 'watch', 'connect']
 
