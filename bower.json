@@ -3,5 +3,10 @@
 	"private": true,
 	"devDependencies": {
 		"jquery": "~1.10.2"
+	},
+	"overrides": {
+		"BOWER-PACKAGE": {
+			"main": "*.min.js"
+		}
 	}
 }

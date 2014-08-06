@@ -9,23 +9,29 @@
     "node": ">=0.1.0"
   },
   "devDependencies": {
-    "gulp": "~3.3.1",
-    "gulp-jshint": "~1.3.4",
-    "gulp-livereload": "~0.2.0",
-    "gulp-jade": "~0.3.0",
-    "gulp-load-plugins": "~0.5.1",
-    "gulp-autoprefixer": "0.0.4",
-    "gulp-less": "~1.1.8",
-    "gulp-coffee": "~1.2.5",
-    "gulp-concat": "~2.1.7",
-    "gulp-uglify": "~0.1.0",
-    "gulp-util": "~2.2.9",
-    "tiny-lr": "0.0.5",
-    "jshint-stylish": "~0.1.5",
-    "gulp-imagemin": "~0.1.4",
-    "gulp-csso": "~0.1.7",
-    "connect-livereload": "~0.3.2",
-    "connect": "~2.12.0",
-    "gulp-open": "~0.2.7"
+    "gulp": "*",
+    "gulp-autoprefixer": "*",
+    "gulp-coffee": "*",
+    "gulp-concat": "*",
+    "gulp-cssmin": "*",
+    "gulp-connect": "*",
+    "gulp-jshint": "*",
+    "gulp-jade": "*",
+    "gulp-minify-html": "*",
+    "gulp-less": "*",
+    "gulp-load-plugins": "*",
+    "gulp-uglify": "*",
+    "gulp-util": "*",
+    "gulp-rimraf": "*",
+    "gulp-if": "*",
+    "gulp-imagemin": "*",
+    "gulp-newer": "*",
+    "gulp-open": "*",
+    "jshint-stylish": "*",
+    "main-bower-files": "*",
+    "lazypipe": "*"
+  },
+  "dependencies": {
+    "coffee-script": "~1.7.1"
   }
 }
