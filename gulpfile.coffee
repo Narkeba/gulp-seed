@@ -60,7 +60,8 @@ gulp.task 'jade', ->
 
 gulp.task 'image', ->
 	gulp.src paths.assets + 'images/*'
-		.pipe plugins.imagemin optimizationLevel: 5
+		.pipe plugins.imagemin
+			optimizationLevel: 4
 		.pipe gulp.dest paths.build + 'images'
 
 gulp.task 'bower-js', ->
