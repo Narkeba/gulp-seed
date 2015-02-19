@@ -7,8 +7,22 @@ mainBowerFiles = require 'main-bower-files'
 env = process.env.NODE_ENV || 'development'
 
 paths =
-	assets: 'assets/'
-	build: 'build/'
+	assets: 'assets'
+	build: 'build'
+
+src =
+	coffee: paths.assets + '/coffee/**/*.coffee'
+	less: paths.assets + '/less/style.less'
+
+dist =
+	coffee: paths.build + '/'
+	less: paths.build + '/'
+
+watch =
+	coffee: paths.assets + '/coffee/**/*.coffee'
+	images: paths.assets + '/images/**/*.*'
+	fonts: paths.assets + '/fonts/**/*.*'
+	less: paths.assets + '/less/**/*.less'
 
 parseBower = (files) ->
 	parsed =
@@ -86,10 +100,10 @@ gulp.task 'clean', ->
 	plugins.rimraf paths.build
 
 gulp.task 'watch', ->
-	gulp.watch paths.assets + 'coffee/**/*.coffee', ['coffee']
-	gulp.watch paths.assets + 'less/**/*.less', ['less']
-	gulp.watch paths.assets + 'jade/**/*.jade', ['jade']
-	gulp.watch paths.assets + 'images/**/*', ['image']
+	gulp.watch watch.coffee, ['coffee']
+	gulp.watch watch.less, ['less']
+	gulp.watch watch.jade, ['jade']
+	gulp.watch watch.images, ['image']
 
 gulp.task 'assets', ['image', 'less', 'coffee', 'jade', 'bower-js', 'bower-css']
 
