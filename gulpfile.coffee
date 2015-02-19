@@ -12,17 +12,22 @@ paths =
 
 src =
 	coffee: paths.assets + '/coffee/**/*.coffee'
+	images: paths.assets + '/images/*'
 	less: paths.assets + '/less/style.less'
+	jade: paths.assets + '/jade/*.jade'
 
 dist =
-	coffee: paths.build + '/'
-	less: paths.build + '/'
+	coffee: paths.build + '/js/'
+	images: paths.build + '/img/'
+	less: paths.build + '/css/'
+	jade: paths.build + '/'
 
 watch =
 	coffee: paths.assets + '/coffee/**/*.coffee'
 	images: paths.assets + '/images/**/*.*'
 	fonts: paths.assets + '/fonts/**/*.*'
 	less: paths.assets + '/less/**/*.less'
+	jade: paths.assets + '/jade/**/*.jade'
 
 parseBower = (files) ->
 	parsed =
@@ -40,56 +45,53 @@ bowerFiles = parseBower mainBowerFiles
 
 scriptCompress = lazypipe()
 	.pipe plugins.uglify
-	.pipe plugins.newer, paths.build + 'scripts/all.js'
-	.pipe plugins.concat, 'all.js'
 
 styleCompress = lazypipe()
 	.pipe plugins.cssmin, keepSpecialComments: 0
-	.pipe plugins.newer, paths.build + 'scripts/all.css'
-	.pipe plugins.concat, 'all.css'
 
 gulp.task 'coffee', ->
-	gulp.src paths.assets + 'coffee/**/*.coffee'
+	gulp.src src.coffee
 		.pipe plugins.coffee bare: true
 		.pipe plugins.jshint()
 		.pipe plugins.jshint.reporter(stylish)
 		.pipe plugins.if env is 'production', scriptCompress()
-		.pipe gulp.dest paths.build + 'scripts'
+		.pipe plugins.concat 'bundle.js'
+		.pipe gulp.dest dist.coffee
 		.pipe plugins.connect.reload()
 
 gulp.task 'less', ->
-	gulp.src paths.assets + 'less/**/*.less'
+	gulp.src src.less
 		.pipe plugins.less()
 		.pipe plugins.autoprefixer "> 1%"
 		.pipe plugins.if env is 'production', styleCompress()
-		.pipe gulp.dest paths.build + 'styles'
+		.pipe gulp.dest dist.less
 		.pipe plugins.connect.reload()
 
 gulp.task 'jade', ->
-	gulp.src paths.assets + 'jade/*.jade'
+	gulp.src src.jade
 		.pipe plugins.jade()
 		.pipe plugins.minifyHtml()
-		.pipe gulp.dest paths.build
+		.pipe gulp.dest dist.jade
 		.pipe plugins.connect.reload()
 
 gulp.task 'image', ->
-	gulp.src paths.assets + 'images/*'
+	gulp.src src.images
 		.pipe plugins.imagemin
 			optimizationLevel: 4
-		.pipe gulp.dest paths.build + 'images'
+		.pipe gulp.dest dist.images
 
 gulp.task 'bower-js', ->
 	gulp.src bowerFiles.js
 		.pipe plugins.newer paths.build + 'scripts/vendor.js'
 		.pipe plugins.concat 'vendor.js'
-		.pipe gulp.dest paths.build + 'scripts'
+		.pipe gulp.dest dist.coffee
 
 gulp.task 'bower-css', ->
 	gulp.src bowerFiles.css
 		.pipe plugins.cssmin keepSpecialComments: 0
 		.pipe plugins.newer paths.build + 'scripts/vendor.css'
 		.pipe plugins.concat 'vendor.css'
-		.pipe gulp.dest paths.build + 'styles'
+		.pipe gulp.dest dist.less
 
 gulp.task 'connect', ->
 	plugins.connect.server
@@ -104,6 +106,7 @@ gulp.task 'watch', ->
 	gulp.watch watch.less, ['less']
 	gulp.watch watch.jade, ['jade']
 	gulp.watch watch.images, ['image']
+	gulp.watch watch.jade, ['jade']
 
 gulp.task 'assets', ['image', 'less', 'coffee', 'jade', 'bower-js', 'bower-css']
 
