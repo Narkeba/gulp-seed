@@ -43,7 +43,7 @@ parseBower = (files) ->
 bowerFiles = parseBower mainBowerFiles
 	includeDev: true
 
-gulp.task 'coffee', 'clean', ->
+gulp.task 'coffee', ['clean'], ->
 	gulp.src src.coffee
 		.pipe plugins.coffee bare: true
 		.pipe plugins.jshint()
@@ -53,7 +53,7 @@ gulp.task 'coffee', 'clean', ->
 		.pipe gulp.dest dist.coffee
 		.pipe plugins.connect.reload()
 
-gulp.task 'less', 'clean', ->
+gulp.task 'less', ['clean'], ->
 	gulp.src src.less
 		.pipe plugins.less()
 		.pipe plugins.autoprefixer "> 1%"
