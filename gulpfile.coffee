@@ -1,7 +1,7 @@
 gulp = require 'gulp'
 plugins = require('gulp-load-plugins')()
 stylish = require 'jshint-stylish'
-lazypipe = require 'lazypipe'
+del = require 'del'
 mainBowerFiles = require 'main-bower-files'
 
 env = process.env.NODE_ENV || 'development'
@@ -43,27 +43,21 @@ parseBower = (files) ->
 bowerFiles = parseBower mainBowerFiles
 	includeDev: true
 
-scriptCompress = lazypipe()
-	.pipe plugins.uglify
-
-styleCompress = lazypipe()
-	.pipe plugins.cssmin, keepSpecialComments: 0
-
-gulp.task 'coffee', ->
+gulp.task 'coffee', 'clean', ->
 	gulp.src src.coffee
 		.pipe plugins.coffee bare: true
 		.pipe plugins.jshint()
 		.pipe plugins.jshint.reporter(stylish)
-		.pipe plugins.if env is 'production', scriptCompress()
+		.pipe plugins.uglify
 		.pipe plugins.concat 'bundle.js'
 		.pipe gulp.dest dist.coffee
 		.pipe plugins.connect.reload()
 
-gulp.task 'less', ->
+gulp.task 'less', 'clean', ->
 	gulp.src src.less
 		.pipe plugins.less()
 		.pipe plugins.autoprefixer "> 1%"
-		.pipe plugins.if env is 'production', styleCompress()
+		.pipe plugins.cssmin, keepSpecialComments: 0
 		.pipe gulp.dest dist.less
 		.pipe plugins.connect.reload()
 
@@ -98,8 +92,10 @@ gulp.task 'connect', ->
 		root: paths.build
 		livereload: true
 
-gulp.task 'clean', ->
-	plugins.rimraf paths.build
+gulp.task 'clean', (cb) ->
+	del [
+		paths.build
+	], cb
 
 gulp.task 'watch', ->
 	gulp.watch watch.coffee, ['coffee']

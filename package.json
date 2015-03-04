@@ -9,26 +9,23 @@
     "node": ">=0.1.0"
   },
   "devDependencies": {
+    "del": "^1.1.1",
     "gulp": "*",
     "gulp-autoprefixer": "*",
     "gulp-coffee": "*",
     "gulp-concat": "*",
     "gulp-connect": "*",
     "gulp-cssmin": "*",
-    "gulp-if": "*",
     "gulp-imagemin": "^1.0.1",
     "gulp-jade": "*",
     "gulp-jshint": "*",
     "gulp-less": "*",
     "gulp-load-plugins": "*",
     "gulp-minify-html": "*",
-    "gulp-newer": "*",
     "gulp-open": "*",
-    "gulp-rimraf": "*",
     "gulp-uglify": "*",
     "gulp-util": "*",
     "jshint-stylish": "*",
-    "lazypipe": "*",
     "main-bower-files": "*"
   },
   "dependencies": {
