@@ -68,12 +68,6 @@ gulp.task 'jade', ->
 		.pipe gulp.dest dist.jade
 		.pipe plugins.connect.reload()
 
-gulp.task 'image', ->
-	gulp.src src.images
-		.pipe plugins.imagemin
-			optimizationLevel: 4
-		.pipe gulp.dest dist.images
-
 gulp.task 'bower-js', ->
 	gulp.src bowerFiles.js
 		.pipe plugins.newer paths.build + 'scripts/vendor.js'

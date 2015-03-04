@@ -16,7 +16,6 @@
     "gulp-concat": "*",
     "gulp-connect": "*",
     "gulp-cssmin": "*",
-    "gulp-imagemin": "^1.0.1",
     "gulp-jade": "*",
     "gulp-jshint": "*",
     "gulp-less": "*",
